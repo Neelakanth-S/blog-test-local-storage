@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Local Storage</title>
+  <script type="text/javascript" src="main.js"></script>
+  <style>
+      body{
+          background-color: rgb(255, 153, 0);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+      }
+      input,label,button{
+          padding: 7px;
+          margin: 5px;
+          box-shadow: 0 0 5px blueviolet;
+          border-radius: 17px blue dot;
+      }
+      button:hover{
+          color: rgb(241, 16, 129);
+      }
+      label:hover{
+          color: cyan;
+      }
+      input:hover{
+          color: cyan;
+      }
+  </style>
+</head>
+<body>
+  <div id="formDiv">
+        <form id="carForm">
+            <h1>Local Storage</h1>
+            <label for="carBrand" >Car</label>
+            <input type="text" id="carBrand" placeholder="Car brand" required autofocus><br>
+            <label for="carPrice" >Price</label>
+            <input type="text" id="carPrice" placeholder="Price" required><br>
+            <label for="key" >Key</label>
+            <input type="text" id="key" placeholder="Key" required><br>
+            <button type="submit">Store Records</button>
+        </form>
+        <br>
+        <label for="retrieveKey" >Enter Key to retrieve item</label>
+        <input type="text" id="retrieveKey" placeholder="retrieveKey" required><br>
+        <button id="retrieveButton">Retrieve records</button>
+        <br>
+        <div id="retrieve"></div>
+        <br>
+        <label for="removeKey" >Enter Key to delete item</label>
+        <input type="text" id="removeKey" placeholder="removeKey" required><br>
+        <button id="removeButton">Remove record</button>
+        <br>
+        <button id="clearButton">Clear all records</button>
+  </div>
+</body>
+<script>
+    function store(){ //stores items in the localStorage
+    var brand = document.getElementById('carBrand').value;
+    var price = document.getElementById('carPrice').value;
+    var key = document.getElementById('key').value;
+
+    const car = {
+        brand: brand,
+        price: price,
+    }
+
+    window.localStorage.setItem(key,JSON.stringify(car));  
+    //converting object to string
+}
+
+function retrieveRecords(){ //retrieves items in the localStorage
+    var key = document.getElementById('retrieveKey').value; //gets key from user
+    console.log("retrive records");
+    var records = window.localStorage.getItem(key); //searches for the key in localStorage
+    var paragraph = document.createElement("p");
+    var infor = document.createTextNode(records);
+    paragraph.appendChild(infor);
+    var element = document.getElementById("retrieve");
+    element.appendChild(paragraph);
+}
+
+function removeItem(){ //deletes item from localStorage
+    var key = document.getElementById('removeKey').value; //gets key from user
+    localStorage.removeItem(key) //passes key to the removeItem method
+    console.log("remove items");
+}
+
+function clearStorage(){ //clears the entire localStorage
+    localStorage.clear()
+    console.log("clear records");
+}
+
+window.onload =function(){ //ensures the page is loaded before functions are executed.
+    document.getElementById("carForm").onsubmit = store
+    document.getElementById("clearButton").onclick = clearStorage
+    document.getElementById("removeButton").onclick = removeItem
+    document.getElementById("retrieveButton").onclick = retrieveRecords
+}
+</script>
+</html>
